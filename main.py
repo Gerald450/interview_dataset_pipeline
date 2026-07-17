@@ -8,6 +8,11 @@ from app.generators.llm_client import LLMClient
 from app.generators.interview_generator import InterviewGenerator
 from rich import print
 
+from app.storage.jsonl_writer import JSONLWriter
+
+response = InterviewGenerator()
+writer = JSONLWriter("datasets/raw/interview.jsonl")
+
 example = InterviewExample(
     id=1,
     question="What is a binary tree?",
@@ -18,8 +23,17 @@ example = InterviewExample(
     tags=["Binary trees", "design thinking"],
 )
 
-response = InterviewGenerator()
+generator = InterviewGenerator()
+writer = JSONLWriter("datasets/raw/interviews.jsonl")
 
-for i in range(100):
-    print(response.generate(Category.BEHAVIORAL, Difficulty.MEDIUM))
-    print("="*100)
+
+result = generator.generate(
+    Category.TREES,
+    Difficulty.MEDIUM,
+)
+
+writer.write(result)
+
+print("saved")
+
+
