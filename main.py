@@ -1,14 +1,12 @@
-from app.generators.prompt_builder import PromptBuilder
 from app.models.interview import (
     InterviewExample,
     Difficulty,
     Category,
 )
-from app.generators.llm_client import LLMClient
 from app.generators.interview_generator import InterviewGenerator
 from rich import print
-
 from app.storage.jsonl_writer import JSONLWriter
+from app.config import TARGET_DATASET_SIZE
 
 response = InterviewGenerator()
 writer = JSONLWriter("datasets/raw/interview.jsonl")
@@ -26,13 +24,9 @@ example = InterviewExample(
 generator = InterviewGenerator()
 writer = JSONLWriter("datasets/raw/interviews.jsonl")
 
-
-result = generator.generate(
-    Category.TREES,
-    Difficulty.MEDIUM,
-)
-
-writer.write(result)
+for _ in range(10):
+    result = generator.generate_random()
+    writer.write(result)
 
 print("saved")
 

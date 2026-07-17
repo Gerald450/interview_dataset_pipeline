@@ -10,6 +10,11 @@ from app.models.interview import (
     Difficulty,
     InterviewExample
 )
+from app.config import (
+    CATEGORIES,
+    DIFFICULTIES,
+)
+import random
 
 
 
@@ -57,5 +62,9 @@ class InterviewGenerator:
         raise RuntimeError(
             f'failed to generate valid InterviewExample after {self.max_retries} attempts'
         ) from last_error
-                
-                
+    
+    def generate_random(self) -> InterviewExample:
+        return self.generate(
+            category=random.choice(CATEGORIES),
+            difficulty=random.choice(DIFFICULTIES),
+        )
